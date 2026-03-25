@@ -1,5 +1,5 @@
 Real-Time Satellite Telemetry Pipeline
-An end-to-end data engineering pipeline that simulates satellite telemetry, processes it in real-time, and stores it for analytical use.
+This project is an end-to-end data engineering pipeline that simulates satellite telemetry, processes data in real-time, and stores it for analytical use.
 
 Tech Stack
 Language: Python 3.9
@@ -29,12 +29,20 @@ macOS Docker Networking: Resolved common localhost-to-container networking hurdl
 Environment Stability: Implemented custom foreachBatch logic to handle JDBC driver registration and local file system pathing in a preview Spark environment.
 
 How to Run
-Start infrastructure: docker-compose -f infra/docker-compose.yml up -d
+Execute the following commands in order:
 
-Start Producer: python src/producer.py
+Start infrastructure:
 
-Start Processor: python src/spark_stream.py
+Bash
+docker-compose -f infra/docker-compose.yml up -d
+Start Producer:
 
+Bash
+python src/producer.py
+Start Processor:
+
+Bash
+python src/spark_stream.py
 Testing and Validation
 To verify the anomaly detection logic:
 
