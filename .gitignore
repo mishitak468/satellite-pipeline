@@ -1,0 +1,6 @@
+# Data and Checkpoints
+checkpoints/
+data_lake/
+delta/
+__pycache__/
+.DS_Store
