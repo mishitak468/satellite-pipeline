@@ -1,11 +1,10 @@
+version: '3.8'
+
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-    ports:
-      - "2181:2181"
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
@@ -16,25 +15,40 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://kafka:29092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT_INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_ENABLE_KRAFT: "no"
 
   postgres:
     image: postgres:15-alpine
     environment:
-      POSTGRES_USER: user
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: telemetry_db
     ports:
       - "5432:5432"
 
-  grafana:
-    image: grafana/grafana:latest
+  # FastAPI Inference Service
+  inference-service:
+    build: 
+      context: ..
+      dockerfile: infra/Dockerfile.inference
     ports:
-      - "3000:3000"
+      - "8000:8000"
     depends_on:
       - postgres
+    volumes:
+      - ../models:/app/models
+
+  # AI Monitoring Service
+  monitoring-service:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.monitoring
+    depends_on:
+      - postgres
+    volumes:
+      - ./inference:/app
+      - ../models:/app/models
+      - ../data_lake:/app/data_lake
