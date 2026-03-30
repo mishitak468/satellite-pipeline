@@ -3,6 +3,8 @@ data_lake/
 models/*.pkl
 *.parquet
 *.html
+checkpoints/
+spark-warehouse/
 
 # Python environment
 __pycache__/
