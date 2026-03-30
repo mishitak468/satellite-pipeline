@@ -1,6 +1,15 @@
-# Data and Checkpoints
-checkpoints/
+# Data and Models
 data_lake/
-delta/
+models/*.pkl
+*.parquet
+*.html
+
+# Python environment
 __pycache__/
+*.pyc
+.venv/
+.env
+
+# System/Docker
 .DS_Store
+*.log

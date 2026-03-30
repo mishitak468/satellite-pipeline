@@ -18,7 +18,8 @@ while True:
         "timestamp": time.time(),
         "altitude": random.uniform(300, 400),
         "velocity": random.uniform(7.5, 7.9),
-        "battery_temp": random.uniform(-10, 45)
+        "battery_temp": 150
+        # random.uniform(-10, 45)
     }
     producer.send('satellite_telemetry', data)
     print(f"Sent to Kafka: {data}")
